@@ -6,7 +6,7 @@ define('DB_PASS', '');
 define('DB_NAME', 'finpath_ai');
 
 // ─── GEMINI API CONFIG ─────────────────────────────────────
-define('AI_API_KEY', 'REMOVED_API_KEY');
+define('AI_API_KEY', 'api key');
 
 define('AI_API_URL', 'https://api.groq.com/openai/v1/chat/completions');
 
