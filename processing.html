@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Analysis — FinPilot AI</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="grid-bg"></div>
+
+  <div class="processing-wrap">
+    <div class="ai-orb">
+      <div class="orb-ring2"></div>
+      <div class="orb-ring"></div>
+      <div class="orb-inner"></div>
+    </div>
+
+    <div style="text-align:center;">
+      <div style="font-family:var(--font-head);font-size:1.5rem;font-weight:800;margin-bottom:8px;" id="mainMsg">
+        🧠 AI is Analyzing Your Profile
+      </div>
+      <div style="color:var(--muted);font-size:0.9rem;" id="subMsg">
+        Crunching the numbers...
+      </div>
+    </div>
+
+    <div class="processing-steps" id="steps">
+      <div class="proc-step" id="s1">
+        <span class="step-icon">📊</span>
+        <span>Analyzing your financial profile...</span>
+        <div class="proc-spinner" id="sp1"></div>
+      </div>
+      <div class="proc-step" id="s2">
+        <span class="step-icon">🧮</span>
+        <span>Calculating money health score...</span>
+        <div class="proc-spinner" id="sp2"></div>
+      </div>
+      <div class="proc-step" id="s3">
+        <span class="step-icon">🧬</span>
+        <span>Identifying financial personality...</span>
+        <div class="proc-spinner" id="sp3"></div>
+      </div>
+      <div class="proc-step" id="s4">
+        <span class="step-icon">🗺️</span>
+        <span>Generating personalized roadmaps...</span>
+        <div class="proc-spinner" id="sp4"></div>
+      </div>
+      <div class="proc-step" id="s5">
+        <span class="step-icon">✅</span>
+        <span>Plans ready! Redirecting...</span>
+        <span class="proc-check" style="display:none;" id="check5">✓</span>
+        <div class="proc-spinner" id="sp5"></div>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div style="width:280px;">
+      <div style="height:4px;background:var(--surface2);border-radius:4px;overflow:hidden;">
+        <div id="progressFill"
+             style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:4px;transition:width .5s ease;"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:var(--muted);">
+        <span id="progressPct">0%</span>
+        <span>Hang tight, almost there...</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const steps = [
+      { id: 's1', sp: 'sp1', delay: 300,  pct: 20 },
+      { id: 's2', sp: 'sp2', delay: 900,  pct: 40 },
+      { id: 's3', sp: 'sp3', delay: 1600, pct: 60 },
+      { id: 's4', sp: 'sp4', delay: 2400, pct: 80 },
+      { id: 's5', sp: 'sp5', delay: 3200, pct: 100 },
+    ];
+
+    const msgs = [
+      [300,  'Fetching your financial profile...'],
+      [900,  'Running AI calculations...'],
+      [1600, 'Building your personality profile...'],
+      [2400, 'Writing your roadmap steps...'],
+      [3200, 'Everything is ready! 🎉'],
+    ];
+
+    const fill = document.getElementById('progressFill');
+    const pct  = document.getElementById('progressPct');
+    const sub  = document.getElementById('subMsg');
+
+    steps.forEach(s => {
+      setTimeout(() => {
+        document.getElementById(s.id).classList.add('active');
+        fill.style.width = s.pct + '%';
+        pct.textContent  = s.pct + '%';
+      }, s.delay);
+    });
+
+    msgs.forEach(([t, m]) => {
+      setTimeout(() => sub.textContent = m, t);
+    });
+
+    // Mark last step as done
+    setTimeout(() => {
+      document.getElementById('sp5').style.display = 'none';
+      document.getElementById('check5').style.display = 'inline';
+    }, 3400);
+
+    // Auto-redirect to processing.php (which does the real AI call)
+    setTimeout(() => {
+      window.location.href = 'processing.php';
+    }, 3600);
+  </script>
+</body>
+</html>
