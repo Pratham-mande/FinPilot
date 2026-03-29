@@ -39,16 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
         "Keep answers concise, practical, and relevant to Indian financial context (mention ₹, PPF, ELSS, NPS, etc. where relevant). " .
         "User asks: $userMsg";
 
-    $aiReply = callAI($context, 600);
-    if ($aiReply === null) {
-        // Try raw text response
-        $aiText = 'I apologize, I could not connect to the AI service. Please check your API configuration.';
-    } else {
-        // callAI tries to parse JSON — for chat we want plain text
-        // If it returned an array, it might be an error or JSON response
-        $aiText = is_string($aiReply) ? $aiReply : json_encode($aiReply);
-    }
-
     // For chat, bypass JSON parsing — call API directly
     $payload = json_encode([
         'model'    => AI_MODEL,
@@ -63,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['message'])) {
         CURLOPT_POSTFIELDS     => $payload,
         CURLOPT_HTTPHEADER     => ['Content-Type: application/json','Authorization: Bearer '.AI_API_KEY],
         CURLOPT_TIMEOUT        => 25,
+        CURLOPT_SSL_VERIFYPEER => false,
     ]);
     $raw = curl_exec($ch);
     curl_close($ch);
@@ -107,7 +98,6 @@ $suggestions = [
     <a href="index.html" class="nav-logo">⚡ FinPilot</a>
     <div class="nav-links">
       <a href="dashboard.php">Dashboard</a>
-      <!--<a href="roadmap.php">Plans</a>-->
       <a href="chat.php" style="color:var(--accent)">AI Chat</a>
       <a href="profile.php">Profile</a>
       <a href="logout.php">Logout</a>
