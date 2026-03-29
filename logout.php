@@ -1,5 +1,11 @@
 <?php
-require_once 'includes/config.php';
+require_once 'config.php';
+
+// Destroy session
+session_start();
+session_unset();
 session_destroy();
-header('Location: index.html');
+
+// Redirect to login
+header('Location: login.php');
 exit;
